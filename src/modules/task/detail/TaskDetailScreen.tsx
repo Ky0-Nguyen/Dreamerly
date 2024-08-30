@@ -1,21 +1,21 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import styles from './styles'; // Assuming the styles are in a file named styles.js
-import commonStyles from '../../styles'
+import { globalStyles } from '../../../core';
+import { ROUTE_KEY } from '../../../core/constants';
 
-const TaskDetailScreen = ({ route, navigation }) => {
+const TaskDetailScreen = ({ route, navigation }: any) => {
   const { task } = route.params; // Assuming the task object is passed as a route parameter
 
   return (
-    <ScrollView style={commonStyles.container}>
+    <ScrollView style={globalStyles.container}>
       {/* Header */}
-      <View style={commonStyles.headerContainer}>
-        <Text style={commonStyles.headerTitle}>Task Details</Text>
+      <View style={globalStyles.headerContainer}>
+        <Text style={globalStyles.headerTitle}>Task Details</Text>
         <TouchableOpacity
-          style={commonStyles.iconButton}
-          onPress={() => navigation.navigate('Edit Task', { task })}
+          style={globalStyles.iconButton}
+          onPress={() => navigation.navigate(ROUTE_KEY.EDIT_TASK, { task })}
         >
-          {/* Edit Icon Here */}
           <Text>Edit</Text>
         </TouchableOpacity>
       </View>
@@ -23,68 +23,95 @@ const TaskDetailScreen = ({ route, navigation }) => {
       {/* Task Title */}
       <View style={styles.detailSection}>
         <Text style={styles.detailLabel}>Task Title</Text>
-        <Text style={styles.detailText}>{task.title}</Text>
+        <View style={styles.containerDetail}>
+
+          <Text style={styles.detailText}>{task.title}</Text>
+        </View>
       </View>
 
       {/* Task Description */}
       <View style={styles.detailSection}>
         <Text style={styles.detailLabel}>Task Description</Text>
-        <Text style={styles.detailText}>{task.description}</Text>
+        <View style={styles.containerDetail}>
+          <Text style={styles.detailText}>{task.description}</Text>
+        </View>
       </View>
 
       {/* Task Status */}
       <View style={styles.detailSection}>
         <Text style={styles.detailLabel}>Status</Text>
-        <Text style={styles.detailText}>{task.status}</Text>
+        <View style={styles.containerDetail}>
+          <Text style={styles.detailText}>{task.status}</Text>
+        </View>
       </View>
 
       {/* Task Priority */}
       <View style={styles.detailSection}>
         <Text style={styles.detailLabel}>Priority</Text>
-        <Text style={styles.detailText}>{task.priority}</Text>
+        <View style={styles.containerDetail}>
+          <Text style={styles.detailText}>{task.priority}</Text>
+        </View>
       </View>
 
       {/* Task Due Date */}
       <View style={styles.detailSection}>
         <Text style={styles.detailLabel}>Due Date</Text>
-        <Text style={styles.detailText}>{task.dueDate}</Text>
+        <View style={styles.containerDetail}>
+          <Text style={styles.detailText}>{task.dueDate}</Text>
+        </View>
       </View>
 
       {/* Task Tags */}
       <View style={styles.detailSection}>
         <Text style={styles.detailLabel}>Tags</Text>
+
         <View style={styles.tagsContainer}>
-          {task.tags.map((tag, index) => (
+          {task.tags.map((tag: any, index: number) => (
             <View key={index} style={styles.taskTag}>
               <Text style={styles.taskTagText}>{tag}</Text>
             </View>
           ))}
         </View>
+
       </View>
 
       {/* Additional Task Details */}
       <View style={styles.detailSection}>
         <Text style={styles.detailLabel}>Assigned To</Text>
-        <Text style={styles.detailText}>{task.assignedTo}</Text>
+        <View style={styles.containerDetail}>
+          <Text style={styles.detailText}>{task.assignedTo}</Text>
+        </View>
       </View>
 
       {/* Task Actions */}
       <View style={styles.taskActionsContainer}>
         <TouchableOpacity
           style={styles.actionButton}
-          onPress={() => alert('Mark as Complete')}
+          onPress={() => Alert.alert('Mark as Complete')}
         >
           <Text style={styles.actionButtonText}>Mark as Complete</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.actionButton, { backgroundColor: '#F44336' }]}
-          onPress={() => alert('Delete Task')}
+          onPress={() => Alert.alert('Delete Task')}
         >
           <Text style={styles.actionButtonText}>Delete Task</Text>
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity style={styles.submitButton} onPress={navigation.goBack}>
+        <Text style={styles.submitButtonText}>Back</Text>
+      </TouchableOpacity>
+      <View style={stylesInternal.footer} />
     </ScrollView>
   );
 };
 
 export default TaskDetailScreen;
+
+const stylesInternal = StyleSheet.create({
+  footer: {
+    height: 100,
+    width: '100%',
+  },
+});

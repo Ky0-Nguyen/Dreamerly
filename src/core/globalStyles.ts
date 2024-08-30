@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     // General Container
@@ -6,7 +6,7 @@ export default StyleSheet.create({
       flex: 1,
       backgroundColor: '#F4F1FF',
       paddingTop: 20,
-      paddingHorizontal: 16
+      paddingHorizontal: 16,
     },
     // Dashboard Screen
     dashboardCard: {
@@ -17,7 +17,7 @@ export default StyleSheet.create({
       marginBottom: 15,
       marginHorizontal: 4,
       borderWidth: 1,
-      borderColor: '#000'
+      borderColor: '#000',
     },
     inProgressCard: {
       backgroundColor: '#C5DFFF',
@@ -127,11 +127,11 @@ export default StyleSheet.create({
     },
     // Navigation and Header
     headerContainer: {
-      paddingTop: 100,
+      paddingTop: 80,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingBottom: 10,
+      paddingBottom: 16,
     },
     headerTitle: {
       fontSize: 24,
@@ -166,7 +166,7 @@ export default StyleSheet.create({
     },
     floatingButton: {
       position: 'absolute',
-      bottom: 80,
+      bottom: 20,
       right: 20,
       width: 60,
       height: 60,
@@ -175,4 +175,7 @@ export default StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-  })
+    sectionInfo: {
+       flexDirection: 'row', justifyContent: 'space-between'
+    }
+  });

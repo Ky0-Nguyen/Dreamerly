@@ -13,14 +13,16 @@ export default StyleSheet.create({
       color: '#555',
       marginBottom: 5,
     },
-    detailText: {
-      fontSize: 18,
-      color: '#000',
-      backgroundColor: '#FFF',
-      padding: 15,
+    containerDetail: {
       borderRadius: 12,
       borderWidth: 1,
       borderColor: '#E0E0E0',
+      backgroundColor: '#FFF',
+    },
+    detailText: {
+      fontSize: 18,
+      color: '#000',
+      padding: 15,
     },
     tagsContainer: {
       flexDirection: 'row',
@@ -47,15 +49,27 @@ export default StyleSheet.create({
       marginTop: 30,
     },
     actionButton: {
-      flex: 1,
+      width: '48%',
       backgroundColor: '#4CAF50',
       borderRadius: 12,
       paddingVertical: 15,
       alignItems: 'center',
-      marginHorizontal: 10,
     },
     actionButtonText: {
       fontSize: 16,
+      fontWeight: '600',
+      color: '#FFF',
+    },
+     // Submit Button
+     submitButton: {
+      backgroundColor: '#FF80AB',
+      borderRadius: 12,
+      paddingVertical: 15,
+      alignItems: 'center',
+      marginTop: 20,
+    },
+    submitButtonText: {
+      fontSize: 18,
       fontWeight: '600',
       color: '#FFF',
     },

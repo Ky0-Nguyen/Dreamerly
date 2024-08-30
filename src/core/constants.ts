@@ -1,0 +1,6 @@
+export const ROUTE_KEY = {
+    TASK_LIST: 'TASK_LIST',
+    TASK_DETAIL: 'TASK_DETAIL',
+    CREATE_TASK: 'CREATE_TASK',
+    EDIT_TASK: 'EDIT_TASK',
+};

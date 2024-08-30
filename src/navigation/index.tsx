@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CreateTaskScreen, EditTaskScreen, TaskDetailScreen, TaskListScreen } from '../modules/task';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DashBoardScreen } from '../modules/dashboard';
+import { ROUTE_KEY } from '../core/constants';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -11,14 +12,11 @@ const Stack = createStackNavigator();
 const TaskStack = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="TaskList" component={TaskListScreen} />
-            <Stack.Screen name="TaskDetail" component={TaskDetailScreen} />
-            <Stack.Screen name="Create Task" component={CreateTaskScreen} />
-            <Stack.Screen name="Edit Task" component={EditTaskScreen} />
+            <Stack.Screen name={ROUTE_KEY.TASK_LIST} component={TaskListScreen} />
         </Stack.Navigator>
     );
 }
-const Navigator = () => {
+const TabNavigator = () => {
     return (
         <Tab.Navigator screenOptions={{ headerShown: false }}>
             <Tab.Screen
@@ -42,5 +40,17 @@ const Navigator = () => {
         </Tab.Navigator>
     );
 };
+
+const Navigator = () => {
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name='TabBar' component={TabNavigator} />
+            <Stack.Screen name={ROUTE_KEY.TASK_DETAIL} component={TaskDetailScreen} />
+            <Stack.Screen name={ROUTE_KEY.CREATE_TASK} component={CreateTaskScreen} />
+            <Stack.Screen name={ROUTE_KEY.EDIT_TASK} component={EditTaskScreen} />
+        </Stack.Navigator>
+    )
+
+}
 
 export default Navigator;

@@ -1,56 +1,81 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import commonStyles from '../styles';
+import { Dimensions, ScrollView, Text, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { globalStyles } from '../../core';
+import { PieChart } from 'react-native-chart-kit';
+import { stores } from '../../stores';
 
-type Props = {}
-
-const DashBoardScreen = (props: Props) => {
+const DashBoardScreen = () => {
+  const { taskCompleted, taskInReview, taskTodo, taskList } = stores;
+  const data = useMemo(() => {
+    return [
+      { name: 'Completed', count: taskCompleted.length, color: 'green', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+      { name: 'Todo', count: taskTodo.length, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+      { name: 'In Review', count: taskInReview.length, color: 'yellow', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+    ];
+  }, [taskCompleted.length, taskInReview.length, taskTodo.length]);
   return (
-    <ScrollView style={commonStyles.container}>
+    <ScrollView style={globalStyles.container}>
       {/* Header */}
-      <View style={commonStyles.headerContainer}>
-        <Text style={commonStyles.headerTitle}>Dashboard</Text>
-        <View style={commonStyles.iconButton}>
+      <View style={globalStyles.headerContainer}>
+        <Text style={globalStyles.headerTitle}>Dashboard</Text>
+        <View style={globalStyles.iconButton}>
           {/* Icon here, e.g. a notification bell */}
         </View>
       </View>
 
       {/* Project Summary Cards */}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={[commonStyles.dashboardCard, commonStyles.inProgressCard]}>
-          <Text style={commonStyles.cardText}>24</Text>
-          <Text style={commonStyles.cardSubText}>In Progress</Text>
+      <View style={globalStyles.sectionInfo}>
+        <View style={[globalStyles.dashboardCard, globalStyles.inProgressCard]}>
+          <Text style={globalStyles.cardText}>{taskTodo.length}</Text>
+          <Text style={globalStyles.cardSubText}>In Progress</Text>
         </View>
-        <View style={[commonStyles.dashboardCard, commonStyles.inReviewCard]}>
-          <Text style={commonStyles.cardText}>56</Text>
-          <Text style={commonStyles.cardSubText}>In Review</Text>
+        <View style={[globalStyles.dashboardCard, globalStyles.inReviewCard]}>
+          <Text style={globalStyles.cardText}>{taskInReview.length}</Text>
+          <Text style={globalStyles.cardSubText}>In Review</Text>
         </View>
       </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={[commonStyles.dashboardCard, commonStyles.onHoldCard]}>
-          <Text style={commonStyles.cardText}>16</Text>
-          <Text style={commonStyles.cardSubText}>On Hold</Text>
+      <View style={globalStyles.sectionInfo}>
+        <View style={[globalStyles.dashboardCard, globalStyles.onHoldCard]}>
+          <Text style={globalStyles.cardText}>{taskTodo.length}</Text>
+          <Text style={globalStyles.cardSubText}>On Hold</Text>
         </View>
-        <View style={[commonStyles.dashboardCard, commonStyles.completedCard]}>
-          <Text style={commonStyles.cardText}>45</Text>
-          <Text style={commonStyles.cardSubText}>Completed</Text>
+        <View style={[globalStyles.dashboardCard, globalStyles.completedCard]}>
+          <Text style={globalStyles.cardText}>{taskCompleted.length}</Text>
+          <Text style={globalStyles.cardSubText}>Completed</Text>
         </View>
       </View>
 
       {/* Project Statistics */}
-      <View style={commonStyles.projectStatisticsContainer}>
-        <Text style={commonStyles.statisticsTitle}>Project Statistics</Text>
-        <View style={commonStyles.chartContainer}>
+      <View style={globalStyles.projectStatisticsContainer}>
+        <Text style={globalStyles.statisticsTitle}>Project Statistics</Text>
+        <View style={globalStyles.chartContainer}>
           {/* Replace with a real chart component */}
           <Text>Chart goes here</Text>
         </View>
-        <View style={commonStyles.statisticsDetails}>
-          <Text style={commonStyles.statisticsText}>Total working hours: 50:25:06</Text>
-          <Text style={commonStyles.statisticsText}>Total task activity: 125</Text>
+        <View style={globalStyles.statisticsDetails}>
+          <Text style={globalStyles.statisticsText}>Total working hours: 50:25:06</Text>
         </View>
+        <Text style={globalStyles.statisticsText}>Total task activity: {taskList.length}</Text>
       </View>
+
+      <PieChart
+        data={data}
+        width={Dimensions.get('window').width}
+        height={220}
+        chartConfig={{
+          backgroundColor: '#1cc910',
+          backgroundGradientFrom: '#eff3ff',
+          backgroundGradientTo: '#efefef',
+          decimalPlaces: 2,
+          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`
+        }}
+        accessor="count"
+        backgroundColor="transparent"
+        paddingLeft="15"
+        absolute
+      />
     </ScrollView>
   );
-}
+};
 
-export default DashBoardScreen
+export default DashBoardScreen;

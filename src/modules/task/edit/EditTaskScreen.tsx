@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles'; // Assuming the styles are in a file named styles.js
-import commonStyles from '../../styles';
+import { globalStyles } from '../../../core';
 
 const EditTaskScreen = ({ route, navigation }:any) => {
   const { task } = route.params; // Assuming the task object is passed as a route parameter
@@ -17,10 +17,10 @@ const EditTaskScreen = ({ route, navigation }:any) => {
   };
 
   return (
-    <ScrollView style={commonStyles.container}>
+    <ScrollView style={globalStyles.container}>
       {/* Header */}
-      <View style={commonStyles.headerContainer}>
-        <Text style={commonStyles.headerTitle}>Edit Task</Text>
+      <View style={globalStyles.headerContainer}>
+        <Text style={globalStyles.headerTitle}>Edit Task</Text>
       </View>
 
       {/* Task Title */}
@@ -71,6 +71,9 @@ const EditTaskScreen = ({ route, navigation }:any) => {
       {/* Save Button */}
       <TouchableOpacity style={styles.submitButton} onPress={handleEditTask}>
         <Text style={styles.submitButtonText}>Save Changes</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.submitButton} onPress={navigation.goBack}>
+        <Text style={styles.submitButtonText}>Back</Text>
       </TouchableOpacity>
     </ScrollView>
   );
