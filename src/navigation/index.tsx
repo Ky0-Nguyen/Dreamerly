@@ -15,27 +15,24 @@ const TaskStack = () => {
             <Stack.Screen name={ROUTE_KEY.TASK_LIST} component={TaskListScreen} />
         </Stack.Navigator>
     );
-}
+};
 const TabNavigator = () => {
+
+    const renderTabBarIcon = ({ color, size, name }: any): React.JSX.Element => (
+        <Ionicons name={name} color={color} size={size} />
+    );
+
     return (
         <Tab.Navigator screenOptions={{ headerShown: false }}>
             <Tab.Screen
                 name="Dashboard"
                 component={DashBoardScreen}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="analytics" color={color} size={size} />
-                    ),
-                }}
+                options={{ tabBarIcon: ({ color, size }) => renderTabBarIcon({ color, size, name: 'analytics' }) }}
             />
             <Tab.Screen
                 name="Tasks"
                 component={TaskStack}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="list" color={color} size={size} />
-                    ),
-                }}
+                options={{ tabBarIcon: ({ color, size }) => renderTabBarIcon({ color, size, name: 'list' }) }}
             />
         </Tab.Navigator>
     );
@@ -44,13 +41,13 @@ const TabNavigator = () => {
 const Navigator = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name='TabBar' component={TabNavigator} />
+            <Stack.Screen name="TabBar" component={TabNavigator} />
             <Stack.Screen name={ROUTE_KEY.TASK_DETAIL} component={TaskDetailScreen} />
             <Stack.Screen name={ROUTE_KEY.CREATE_TASK} component={CreateTaskScreen} />
             <Stack.Screen name={ROUTE_KEY.EDIT_TASK} component={EditTaskScreen} />
         </Stack.Navigator>
-    )
+    );
 
-}
+};
 
 export default Navigator;

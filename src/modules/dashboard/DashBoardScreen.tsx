@@ -3,16 +3,18 @@ import React, { useMemo } from 'react';
 import { globalStyles } from '../../core';
 import { PieChart } from 'react-native-chart-kit';
 import { stores } from '../../stores';
+import { observer } from 'mobx-react-lite';
 
 const DashBoardScreen = () => {
-  const { taskCompleted, taskInReview, taskTodo, taskList } = stores;
+  const { taskCompleted, taskInReview, taskList, taskInProgress, taskPending } = stores;
   const data = useMemo(() => {
     return [
       { name: 'Completed', count: taskCompleted.length, color: 'green', legendFontColor: '#7F7F7F', legendFontSize: 15 },
-      { name: 'Todo', count: taskTodo.length, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+      { name: 'Pending', count: taskPending.length, color: 'red', legendFontColor: '#7F7F7F', legendFontSize: 15 },
       { name: 'In Review', count: taskInReview.length, color: 'yellow', legendFontColor: '#7F7F7F', legendFontSize: 15 },
+      { name: 'In Progress', count: taskInProgress.length, color: 'blue', legendFontColor: '#7F7F7F', legendFontSize: 15 },
     ];
-  }, [taskCompleted.length, taskInReview.length, taskTodo.length]);
+  }, [taskCompleted.length, taskInProgress.length, taskInReview.length, taskPending.length]);
   return (
     <ScrollView style={globalStyles.container}>
       {/* Header */}
@@ -26,7 +28,7 @@ const DashBoardScreen = () => {
       {/* Project Summary Cards */}
       <View style={globalStyles.sectionInfo}>
         <View style={[globalStyles.dashboardCard, globalStyles.inProgressCard]}>
-          <Text style={globalStyles.cardText}>{taskTodo.length}</Text>
+          <Text style={globalStyles.cardText}>{taskInProgress.length}</Text>
           <Text style={globalStyles.cardSubText}>In Progress</Text>
         </View>
         <View style={[globalStyles.dashboardCard, globalStyles.inReviewCard]}>
@@ -36,7 +38,7 @@ const DashBoardScreen = () => {
       </View>
       <View style={globalStyles.sectionInfo}>
         <View style={[globalStyles.dashboardCard, globalStyles.onHoldCard]}>
-          <Text style={globalStyles.cardText}>{taskTodo.length}</Text>
+          <Text style={globalStyles.cardText}>{taskPending.length}</Text>
           <Text style={globalStyles.cardSubText}>On Hold</Text>
         </View>
         <View style={[globalStyles.dashboardCard, globalStyles.completedCard]}>
@@ -78,4 +80,4 @@ const DashBoardScreen = () => {
   );
 };
 
-export default DashBoardScreen;
+export default observer(DashBoardScreen);

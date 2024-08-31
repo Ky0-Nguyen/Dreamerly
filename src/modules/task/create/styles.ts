@@ -1,10 +1,8 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-    // Existing styles here...
-  
-    // Input Fields
     taskInputContainer: {
+      zIndex: 1,
       marginBottom: 20,
     },
     inputLabel: {
@@ -22,8 +20,6 @@ export default StyleSheet.create({
       borderColor: '#E0E0E0',
       borderWidth: 1,
     },
-  
-    // Submit Button
     submitButton: {
       backgroundColor: '#FF80AB',
       borderRadius: 12,
@@ -37,4 +33,3 @@ export default StyleSheet.create({
       color: '#FFF',
     },
   });
-  

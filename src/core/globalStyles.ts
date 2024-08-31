@@ -71,13 +71,14 @@ export default StyleSheet.create({
       marginBottom: 15,
     },
     taskStatus: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginBottom: 15,
+      width: '100%',
+      marginBottom: 16,
     },
     statusButton: {
-      borderWidth: 1,
+      height: 48,
+      marginRight: 16,
       padding: 12,
+      borderWidth: 1,
       borderRadius: 20,
     },
     statusButtonActive: {

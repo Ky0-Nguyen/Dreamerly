@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles'; // Assuming the styles are in a file named styles.js
 import { globalStyles } from '../../../core';
+import { observer } from 'mobx-react-lite';
 
 const EditTaskScreen = ({ route, navigation }:any) => {
   const { task } = route.params; // Assuming the task object is passed as a route parameter
@@ -79,4 +80,4 @@ const EditTaskScreen = ({ route, navigation }:any) => {
   );
 };
 
-export default EditTaskScreen;
+export default observer(EditTaskScreen);

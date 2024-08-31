@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import styles from './styles'; // Assuming the styles are in a file named styles.js
-import { globalStyles } from '../../../core';
-// import PushNotification from 'react-native-push-notification';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import styles from './styles';
+import { globalStyles, Priority, Status } from '../../../core';
 import notifee, { TimestampTrigger, TriggerType } from '@notifee/react-native';
+import { observer } from 'mobx-react-lite';
+import { stores } from '../../../stores';
 
 const CreateTaskScreen = ({ navigation }: any) => {
   const [taskTitle, setTaskTitle] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
-  const [taskPriority, setTaskPriority] = useState('Medium');
+  const [taskPriority, setTaskPriority] = useState(Priority.MEDIUM);
+  const [isOpenPriority, setIsOpenPriority] = useState(false);
+
   const [taskTags, setTaskTags] = useState('');
+  const { onCreateTask } = stores;
 
   const onCreateTriggerNotification = async () => {
     const date = new Date(Date.now());
-    date.setHours(11);
-    date.setMinutes(10);
 
     // Create a time-based trigger
     const trigger: TimestampTrigger = {
       type: TriggerType.TIMESTAMP,
-      timestamp: date.getTime(), // fire at 11:10am (10 minutes before meeting)
+      timestamp: date.getTime() + 60 * 1000,
     };
 
     // Create a trigger notification
@@ -33,18 +35,26 @@ const CreateTaskScreen = ({ navigation }: any) => {
       },
       trigger,
     );
-  }
+  };
 
   const handleCreateTask = async () => {
-    // Handle task creation logic
-    // PushNotification.localNotificationSchedule({
-    //   message: 'Reminder for your task', // Message to display
-    //   date: new Date(Date.now() + 1 * 1000), // Reminder time
-    // });
+    await onCreateTask({
+      id: new Date().getTime().toString(),
+      title: taskTitle, description: taskDescription,
+      createdAt: new Date().toString(),
+      tags: taskTags.split(','),
+      status: Status.TODO,
+      category: '',
+      reminder: undefined,
+      completed: false,
+      priority: taskPriority,
+    });
     await onCreateTriggerNotification();
     console.log('Task Created:', { taskTitle, taskDescription, taskPriority, taskTags });
-    navigation.goBack(); // Go back to the previous screen after creating the task
+    navigation.goBack();
   };
+
+
 
   return (
     <ScrollView style={globalStyles.container}>
@@ -79,16 +89,35 @@ const CreateTaskScreen = ({ navigation }: any) => {
       {/* Task Priority */}
       <View style={styles.taskInputContainer}>
         <Text style={styles.inputLabel}>Priority</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Enter task priority (e.g., High, Medium, Low)"
-          value={taskPriority}
-          onChangeText={setTaskPriority}
-        />
+        <TouchableOpacity style={styles.textInput} onPress={() => setIsOpenPriority(true)}>
+          <Text>{taskPriority}</Text>
+        </TouchableOpacity>
+        {
+          isOpenPriority
+            ? <View style={localStyles.modalPriority} >
+              {
+                [Priority.HIGH, Priority.MEDIUM, Priority.LOW].map((i) => {
+                  const onPress = () => {
+                    setTaskPriority(i);
+                    setIsOpenPriority(false);
+                  };
+                  return (
+                    <TouchableOpacity key={i} onPress={onPress}>
+                      <View style={localStyles.priorityItem}>
+                        <Text>{i}</Text>
+                      </View>
+                    </TouchableOpacity>
+
+                  );
+                })
+              }
+            </View>
+            : <View />
+        }
       </View>
 
       {/* Task Tags */}
-      <View style={styles.taskInputContainer}>
+      <View style={[styles.taskInputContainer, { zIndex: -1 }]}>
         <Text style={styles.inputLabel}>Tags</Text>
         <TextInput
           style={styles.textInput}
@@ -109,4 +138,24 @@ const CreateTaskScreen = ({ navigation }: any) => {
   );
 };
 
-export default CreateTaskScreen;
+export default observer(CreateTaskScreen);
+
+const localStyles = StyleSheet.create({
+  modalPriority: {
+    top: 80,
+    zIndex: 10,
+    borderWidth: 1,
+    position: 'absolute',
+    borderColor: '#f1f1f1',
+    backgroundColor: '#fff',
+    width: Dimensions.get('screen').width - 32,
+  },
+  priorityItem: {
+    height: 50,
+    width: '100%',
+    borderBottomWidth: 1,
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+    borderBottomColor: '#f1f1f1',
+  },
+});

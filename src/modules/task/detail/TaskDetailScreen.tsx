@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import styles from './styles'; // Assuming the styles are in a file named styles.js
+import styles from './styles';
 import { globalStyles } from '../../../core';
 import { ROUTE_KEY } from '../../../core/constants';
+import { observer } from 'mobx-react-lite';
 
 const TaskDetailScreen = ({ route, navigation }: any) => {
-  const { task } = route.params; // Assuming the task object is passed as a route parameter
+  const { task } = route.params;
 
   return (
     <ScrollView style={globalStyles.container}>
@@ -107,7 +108,7 @@ const TaskDetailScreen = ({ route, navigation }: any) => {
   );
 };
 
-export default TaskDetailScreen;
+export default observer(TaskDetailScreen);
 
 const stylesInternal = StyleSheet.create({
   footer: {

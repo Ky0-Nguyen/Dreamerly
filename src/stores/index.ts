@@ -1,5 +1,5 @@
 import {makeAutoObservable} from 'mobx';
-import {TaskType} from '../core';
+import {Status, TaskType} from '../core';
 import {mockTasks} from './mockData';
 import { findIndex } from 'lodash';
 
@@ -30,15 +30,23 @@ class Stores {
   };
 
   get taskCompleted() {
-    return this.taskList.filter(task => task.status === 'completed');
+    return this.taskList.filter(task => task.status === Status.COMPLETED);
   }
 
   get taskInReview() {
-    return this.taskList.filter(task => task.status === 'in-review');
+    return this.taskList.filter(task => task.status === Status.IN_REVIEW);
   }
 
   get taskTodo() {
-    return this.taskList.filter(task => task.status === 'todo');
+    return this.taskList.filter(task => task.status === Status.TODO);
+  }
+
+  get taskInProgress() {
+    return this.taskList.filter(task => task.status === Status.IN_PROGRESS);
+  }
+
+  get taskPending() {
+    return this.taskList.filter(task => task.status === Status.PENDING);
   }
 }
 
